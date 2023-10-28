@@ -1,12 +1,12 @@
 import React from 'react'
+import './Content.css'
 
 const Content = ({contents}) => {
-    console.log(contents)
   return (
-    <div className='content'>
+    <div className='Content'>
         <ul>
             {contents?.map(content => (
-                <li key={content.id}>{content.id}</li>
+                <li key={content.id}>{JSON.stringify(content)}</li>
             ))}
         </ul>
     </div>
