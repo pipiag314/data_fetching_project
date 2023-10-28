@@ -1,22 +1,29 @@
-import React from 'react'
-import './NavBar.css'
-import { fetchAPI } from './fetchAPI'
+import React, { useState, useEffect } from "react";
+import "./NavBar.css";
+import { fetchAPI } from "./fetchAPI";
 
+const NavBar = ({ setContents }) => {
+  const URL = "https://jsonplaceholder.typicode.com/";
+  const [endPoint, setEndPoint] = useState("users");
 
-const NavBar = ({setContents}) => {
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setContents(await fetchAPI(`${URL}${endPoint}`));
+      } catch (error) {
+        console.log("Erorr:", error);
+      }
+    }
+    fetchData();
+  }, [endPoint]);
 
-  const handleClick = async (endPoint) => {
-    const data = await fetchAPI(`https://jsonplaceholder.typicode.com/${endPoint}`)
-    setContents(data);
-  }
-  
   return (
-    <div className='NavBar'>
-        <button value='users' onClick={(event) => handleClick(event.target.value)}>Users</button>
-        <button value='posts' onClick={(event) => handleClick(event.target.value)}>Posts</button>
-        <button value='comments' onClick={(event) => handleClick(event.target.value)}>Comments</button>
+    <div className="NavBar">
+      <button onClick={() => setEndPoint("users")}>Users</button>
+      <button onClick={() => setEndPoint("posts")}>Posts</button>
+      <button onClick={() => setEndPoint("comments")}>Comments</button>
     </div>
-  )
-}
+  );
+};
 
 export default NavBar;
